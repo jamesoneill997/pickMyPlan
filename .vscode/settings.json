@@ -1,3 +1,4 @@
 {
-    "git.githubAuthentication": false
+    "git.githubAuthentication": false,
+    "git.terminalAuthentication": false
 }
