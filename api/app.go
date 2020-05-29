@@ -33,6 +33,25 @@ func setConnection() *mongo.Client {
 	return client
 }
 
+func userConnection(client *mongo.Client) *mongo.Collection {
+	//connect to users db
+	collection := client.Database("pickMyPlan").Collection("users")
+	return collection
+}
+
+func addUser(userCol mongo.Collection, user user) int {
+	//add user
+	res, err := userCol.InsertOne(context.Background(), user)
+	if err != nil {
+		fmt.Println(err)
+		return -1
+	} else {
+		fmt.Println("User added successfully")
+		fmt.Println(res)
+		return 0
+	}
+}
+
 //user
 type user struct {
 	Username       string         `bson:"username" json:"username"`
@@ -88,6 +107,8 @@ func delete(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	client := setConnection()
+	userCol := userConnection(client)
+
 	//test user
 	u := user{
 		Username:  "jamesoneill997",
@@ -111,14 +132,7 @@ func main() {
 		PayAcctID: "1234",
 	}
 
-	//connect to users db
-	collection := client.Database("pickMyPlan").Collection("users")
-	//add user
-	res, err := collection.InsertOne(context.Background(), u)
-
-	if err != nil {
-		fmt.Println(err)
-	}
+	addUser(*userCol, u)
 
 	http.HandleFunc("/create", create)
 	http.HandleFunc("/read", read)
@@ -126,5 +140,4 @@ func main() {
 
 	log.Fatal(s.ListenAndServe())
 
-	fmt.Println(res)
 }
