@@ -1,10 +1,14 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
 	"time"
+
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 //server
@@ -30,6 +34,14 @@ func delete(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb://localhost:27017"))
+
+	if err != nil {
+		return err
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
+	defer cancel()
+	err = client.Connect(ctx)
 
 	http.HandleFunc("/create", create)
 	http.HandleFunc("/read", read)
