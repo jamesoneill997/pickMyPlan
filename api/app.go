@@ -7,10 +7,10 @@ import (
 	"net/http"
 	"time"
 
+	db "github.com/jamesoneill997/pickMyPlan/db"
 	template "github.com/jamesoneill997/pickMyPlan/templates"
 
 	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 //server
@@ -22,18 +22,7 @@ var s = &http.Server{
 	MaxHeaderBytes: 1 << 16,
 }
 
-//database connection
-func setConnection() *mongo.Client {
-	var client, err = mongo.NewClient(options.Client().ApplyURI("mongodb://localhost:27017"))
-	if err != nil {
-		fmt.Println(err)
-	}
-	var ctx, cancel = context.WithTimeout(context.Background(), 20*time.Second)
-	defer cancel()
-	err = client.Connect(ctx)
-
-	return client
-}
+var client = db.SetConnection()
 
 func userConnection(client *mongo.Client) *mongo.Collection {
 	//connect to users db
@@ -54,30 +43,6 @@ func addUser(userCol mongo.Collection, user template.User) int {
 	}
 }
 
-type trainer struct {
-	Username   string   `bson:"username" json:"username"`
-	Gender     string   `bson:"gender" json:"gender"`
-	Expertise  []string `bson:"expertise" json:"expertise"`
-	Experience string   `bson:"experience" json:"experience"`
-	Programs   string   `bson:"programs" json:"programs"`
-	Website    string   `bson:"website" json:"website"`
-}
-
-type program struct {
-	category string
-	exercies []struct {
-		equipment  []string
-		duration   int
-		targetArea string
-	}
-	diet struct {
-		meals []struct {
-			ingredients []string
-			allergies   []string
-		}
-	}
-}
-
 //handlers for endpoints
 func create(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Create profile\n")
@@ -91,8 +56,8 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Delete profile\n")
 }
 
+//main function
 func main() {
-	client := setConnection()
 	userCol := userConnection(client)
 
 	//test user
