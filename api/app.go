@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"log"
 	"net/http"
@@ -28,19 +27,6 @@ func userConnection(client *mongo.Client) *mongo.Collection {
 	//connect to users db
 	collection := client.Database("pickMyPlan").Collection("users")
 	return collection
-}
-
-func addUser(userCol mongo.Collection, user template.User) int {
-	//add user
-	res, err := userCol.InsertOne(context.Background(), user)
-	if err != nil {
-		fmt.Println(err)
-		return -1
-	} else {
-		fmt.Println("User added successfully")
-		fmt.Println(res)
-		return 0
-	}
 }
 
 //handlers for endpoints
@@ -83,7 +69,7 @@ func main() {
 		PayAcctID: "1234",
 	}
 
-	addUser(*userCol, u)
+	db.AddUser(*userCol, u)
 
 	http.HandleFunc("/create", create)
 	http.HandleFunc("/read", read)
