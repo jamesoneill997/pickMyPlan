@@ -8,8 +8,6 @@ import (
 
 	db "github.com/jamesoneill997/pickMyPlan/db"
 	template "github.com/jamesoneill997/pickMyPlan/templates"
-
-	"go.mongodb.org/mongo-driver/mongo"
 )
 
 //server
@@ -22,12 +20,6 @@ var s = &http.Server{
 }
 
 var client = db.SetConnection()
-
-func userConnection(client *mongo.Client) *mongo.Collection {
-	//connect to users db
-	collection := client.Database("pickMyPlan").Collection("users")
-	return collection
-}
 
 //handlers for endpoints
 func create(w http.ResponseWriter, r *http.Request) {
@@ -44,7 +36,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 
 //main function
 func main() {
-	userCol := userConnection(client)
+	userCol := db.ConnectCollection(client, "users")
 
 	//test user
 	u := template.User{
