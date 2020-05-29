@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/jamesoneill997/pickMyPlan/templates"
 	template "github.com/jamesoneill997/pickMyPlan/templates"
 
 	"go.mongodb.org/mongo-driver/mongo"
@@ -97,7 +96,7 @@ func main() {
 	userCol := userConnection(client)
 
 	//test user
-	u := templates.User{
+	u := template.User{
 		Username:  "jamesoneill997",
 		Gender:    "m",
 		WeightKg:  100,
