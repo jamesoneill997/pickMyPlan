@@ -7,6 +7,9 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/jamesoneill997/pickMyPlan/templates"
+	template "github.com/jamesoneill997/pickMyPlan/templates"
+
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -39,7 +42,7 @@ func userConnection(client *mongo.Client) *mongo.Collection {
 	return collection
 }
 
-func addUser(userCol mongo.Collection, user user) int {
+func addUser(userCol mongo.Collection, user template.User) int {
 	//add user
 	res, err := userCol.InsertOne(context.Background(), user)
 	if err != nil {
@@ -50,22 +53,6 @@ func addUser(userCol mongo.Collection, user user) int {
 		fmt.Println(res)
 		return 0
 	}
-}
-
-//user
-type user struct {
-	Username       string         `bson:"username" json:"username"`
-	Gender         string         `bson:"gender" json:"gender"`
-	WeightKg       int            `bson:"weightKg" json:"weightKg"`
-	HeightCm       int            `bson:"heightCm" json:"heightCm"`
-	Build          string         `bson:"build" json:"build"`
-	Goals          string         `bson:"goals" json:"goals"`
-	Equipment      []string       `bson:"equipment" json:"equipment"`
-	Statistics     map[string]int `bson:"statistics" json:"statistics"`
-	Allergies      []string       `bson:"allergies" json:"allergies"`
-	ProfileImage   string         `bson:"profileImage" json:"profileImage"`
-	ProgressImages []string       `bson:"progressImages" json:"progressImages"`
-	PayAcctID      string         `bson:"payAcctID" json:"payAcctID"`
 }
 
 type trainer struct {
@@ -110,7 +97,7 @@ func main() {
 	userCol := userConnection(client)
 
 	//test user
-	u := user{
+	u := templates.User{
 		Username:  "jamesoneill997",
 		Gender:    "m",
 		WeightKg:  100,
