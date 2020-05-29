@@ -20,29 +20,42 @@ var s = &http.Server{
 	MaxHeaderBytes: 1 << 16,
 }
 
+//database connection
+func setConnection() *mongo.Client {
+	var client, err = mongo.NewClient(options.Client().ApplyURI("mongodb://localhost:27017"))
+	if err != nil {
+		fmt.Println(err)
+	}
+	var ctx, cancel = context.WithTimeout(context.Background(), 20*time.Second)
+	defer cancel()
+	err = client.Connect(ctx)
+
+	return client
+}
+
 //user
 type user struct {
 	Username       string         `bson:"username" json:"username"`
-	Gender         string         `bson:"gender" json:"username"`
-	WeightKg       int            `bson:"weightKg" json:"username"`
-	HeightCm       int            `bson:"heightCm" json:"username"`
-	Build          string         `bson:"build" json:"username"`
-	Goals          string         `bson:"goals" json:"username"`
-	Equipment      []string       `bson:"equipment" json:"username"`
-	Statistics     map[string]int `bson:"statistics" json:"username"`
-	Allergies      []string       `bson:"allergies" json:"username"`
-	ProfileImage   string         `bson:"profileImage" json:"username"`
-	ProgressImages []string       `bson:"progressImages" json:"username"`
-	PayAcctID      string         `bson:"payAcctID" json:"username"`
+	Gender         string         `bson:"gender" json:"gender"`
+	WeightKg       int            `bson:"weightKg" json:"weightKg"`
+	HeightCm       int            `bson:"heightCm" json:"heightCm"`
+	Build          string         `bson:"build" json:"build"`
+	Goals          string         `bson:"goals" json:"goals"`
+	Equipment      []string       `bson:"equipment" json:"equipment"`
+	Statistics     map[string]int `bson:"statistics" json:"statistics"`
+	Allergies      []string       `bson:"allergies" json:"allergies"`
+	ProfileImage   string         `bson:"profileImage" json:"profileImage"`
+	ProgressImages []string       `bson:"progressImages" json:"progressImages"`
+	PayAcctID      string         `bson:"payAcctID" json:"payAcctID"`
 }
 
 type trainer struct {
-	username   string
-	gender     string
-	expertise  string
-	experience string
-	programs   string
-	website    string
+	Username   string   `bson:"username" json:"username"`
+	Gender     string   `bson:"gender" json:"gender"`
+	Expertise  []string `bson:"expertise" json:"expertise"`
+	Experience string   `bson:"experience" json:"experience"`
+	Programs   string   `bson:"programs" json:"programs"`
+	Website    string   `bson:"website" json:"website"`
 }
 
 type program struct {
@@ -74,15 +87,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	//database connection
-	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb://localhost:27017"))
-	if err != nil {
-		fmt.Println(err)
-	}
-	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
-	defer cancel()
-	err = client.Connect(ctx)
-
+	client := setConnection()
 	//test user
 	u := user{
 		Username:  "jamesoneill997",
@@ -110,6 +115,10 @@ func main() {
 	collection := client.Database("pickMyPlan").Collection("users")
 	//add user
 	res, err := collection.InsertOne(context.Background(), u)
+
+	if err != nil {
+		fmt.Println(err)
+	}
 
 	http.HandleFunc("/create", create)
 	http.HandleFunc("/read", read)
