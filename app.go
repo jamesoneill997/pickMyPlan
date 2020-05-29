@@ -23,7 +23,16 @@ var client = db.SetConnection()
 
 //handlers for endpoints
 func create(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Create profile\n")
+	switch r.Method {
+	case http.MethodGet:
+		fmt.Println(r.Method)
+	case http.MethodPost:
+		fmt.Println(r)
+		return
+
+	default:
+		return
+	}
 }
 
 func read(w http.ResponseWriter, r *http.Request) {
