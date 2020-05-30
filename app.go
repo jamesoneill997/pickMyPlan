@@ -19,24 +19,10 @@ var s = &http.Server{
 }
 
 func read(w http.ResponseWriter, r *http.Request) {
-	//client := db.SetConnection()
-	//userCol := db.ConnectCollection(client, "users")
-	//user := template.User{}
+	query := api.GetQueryString(w, r)
 
-	switch r.Method {
-	case http.MethodGet:
-		username, ok := r.URL.Query()["username"]
+	fmt.Println(query)
 
-		if !ok || len(username[0]) == 0 {
-			fmt.Println("Error with username")
-			return
-		}
-
-		fmt.Println(username[0])
-
-	default:
-		return
-	}
 }
 
 func delete(w http.ResponseWriter, r *http.Request) {

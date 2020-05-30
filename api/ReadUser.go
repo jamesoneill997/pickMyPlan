@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-func Read(w http.ResponseWriter, r *http.Request) string {
+func GetQueryString(w http.ResponseWriter, r *http.Request) string {
 	switch r.Method {
 	case http.MethodGet:
 		username, ok := r.URL.Query()["username"]
