@@ -5,6 +5,8 @@ import (
 	"log"
 	"net/http"
 	"time"
+
+	api "github.com/jamesoneill997/pickMyPlan/api"
 )
 
 //server
@@ -27,7 +29,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 //main function
 func main() {
 
-	http.HandleFunc("/create", create)
+	http.HandleFunc("/create", api.CreateUser)
 	http.HandleFunc("/read", read)
 	http.HandleFunc("/delete", delete)
 
