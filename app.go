@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -27,7 +28,14 @@ func create(w http.ResponseWriter, r *http.Request) {
 	case http.MethodGet:
 		fmt.Println(r.Method)
 	case http.MethodPost:
-		fmt.Println(r)
+		decoder := json.NewDecoder(r.Body)
+		u := template.User{}
+		err := decoder.Decode(&u)
+
+		if err != nil {
+			fmt.Println(err)
+		}
+		fmt.Println(u)
 		return
 
 	default:
