@@ -9,7 +9,11 @@ import (
 
 func GetQueryString(w http.ResponseWriter, r *http.Request) string {
 	switch r.Method {
-	case http.MethodGet:
+
+	case http.MethodPost:
+		return "Bad Request"
+
+	default:
 		username, ok := r.URL.Query()["username"]
 
 		if !ok || len(username[0]) == 0 {
@@ -19,8 +23,6 @@ func GetQueryString(w http.ResponseWriter, r *http.Request) string {
 
 		return username[0]
 
-	default:
-		return "Bad Request"
 	}
 }
 

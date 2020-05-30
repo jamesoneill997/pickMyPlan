@@ -7,6 +7,7 @@ import (
 	"time"
 
 	api "github.com/jamesoneill997/pickMyPlan/api"
+	"github.com/jamesoneill997/pickMyPlan/db"
 )
 
 //server
@@ -19,7 +20,13 @@ var s = &http.Server{
 }
 
 func delete(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Delete profile\n")
+	switch r.Method {
+	case "DELETE":
+		user := api.GetQueryString(w, r)
+		fmt.Println(user)
+		fmt.Println(db.Remove(user))
+
+	}
 }
 
 //main function
