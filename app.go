@@ -1,12 +1,16 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
 	"time"
 
 	api "github.com/jamesoneill997/pickMyPlan/api"
+	db "github.com/jamesoneill997/pickMyPlan/db"
+	template "github.com/jamesoneill997/pickMyPlan/templates"
+	"go.mongodb.org/mongo-driver/bson"
 )
 
 //server
@@ -21,7 +25,19 @@ var s = &http.Server{
 func read(w http.ResponseWriter, r *http.Request) {
 	query := api.GetQueryString(w, r)
 
-	fmt.Println(query)
+	client := db.SetConnection()
+	userCol := db.ConnectCollection(client, "users")
+	user := template.User{}
+
+	filter := bson.D{
+		bson.E{
+			"username", query,
+		},
+	}
+
+	userCol.FindOne(context.TODO(), filter).Decode(&user)
+
+	fmt.Println(user)
 
 }
 
