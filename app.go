@@ -19,7 +19,24 @@ var s = &http.Server{
 }
 
 func read(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Read profile\n")
+	//client := db.SetConnection()
+	//userCol := db.ConnectCollection(client, "users")
+	//user := template.User{}
+
+	switch r.Method {
+	case http.MethodGet:
+		username, ok := r.URL.Query()["username"]
+
+		if !ok || len(username[0]) == 0 {
+			fmt.Println("Error with username")
+			return
+		}
+
+		fmt.Println(username[0])
+
+	default:
+		return
+	}
 }
 
 func delete(w http.ResponseWriter, r *http.Request) {
@@ -28,9 +45,9 @@ func delete(w http.ResponseWriter, r *http.Request) {
 
 //main function
 func main() {
-
+	fmt.Println("Server running on localhost:8080")
 	http.HandleFunc("/create", api.CreateUser)
-	http.HandleFunc("/read", read)
+	http.HandleFunc("/user", read)
 	http.HandleFunc("/delete", delete)
 
 	log.Fatal(s.ListenAndServe())
