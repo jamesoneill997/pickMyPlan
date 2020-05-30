@@ -3,6 +3,8 @@ package api
 import (
 	"fmt"
 	"net/http"
+
+	db "github.com/jamesoneill997/pickMyPlan/db"
 )
 
 func GetQueryString(w http.ResponseWriter, r *http.Request) string {
@@ -20,4 +22,10 @@ func GetQueryString(w http.ResponseWriter, r *http.Request) string {
 	default:
 		return "Bad Request"
 	}
+}
+
+func Read(w http.ResponseWriter, r *http.Request) {
+	uName := GetQueryString(w, r)
+	user := db.FindUserByUsername(uName)
+	fmt.Println(user)
 }

@@ -7,7 +7,6 @@ import (
 	"time"
 
 	api "github.com/jamesoneill997/pickMyPlan/api"
-	db "github.com/jamesoneill997/pickMyPlan/db"
 )
 
 //server
@@ -19,13 +18,6 @@ var s = &http.Server{
 	MaxHeaderBytes: 1 << 16,
 }
 
-func read(w http.ResponseWriter, r *http.Request) {
-	uName := api.GetQueryString(w, r)
-	user := db.FindUserByUsername(uName)
-
-	fmt.Println(user)
-}
-
 func delete(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Delete profile\n")
 }
@@ -34,7 +26,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 func main() {
 	fmt.Println("Server running on localhost:8080")
 	http.HandleFunc("/create", api.CreateUser)
-	http.HandleFunc("/user", read)
+	http.HandleFunc("/user", api.Read)
 	http.HandleFunc("/delete", delete)
 
 	log.Fatal(s.ListenAndServe())
