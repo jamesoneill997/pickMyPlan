@@ -1,8 +1,9 @@
-package api
+package User
 
 import (
 	"fmt"
 	"net/http"
+	"net/url"
 
 	db "github.com/jamesoneill997/pickMyPlan/db"
 )
@@ -24,6 +25,12 @@ func GetQueryString(w http.ResponseWriter, r *http.Request) string {
 		return username[0]
 
 	}
+}
+
+func GetAllQueries(w http.ResponseWriter, r *http.Request) url.Values {
+	query := r.URL.Query()
+
+	return query
 }
 
 func Read(w http.ResponseWriter, r *http.Request) {
