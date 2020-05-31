@@ -12,14 +12,15 @@ func UpdateDetails(username string, field string, newValue interface{}) {
 	client := SetConnection()
 	conn := ConnectCollection(client, "users")
 
+	//find user
 	filter := bson.D{
 		bson.E{
 			"username", username,
 		},
 	}
-	fmt.Println(field, newValue)
+
 	update := bson.D{
-		{"$set", bson.E{field, newValue}},
+		{"$set", bson.M{field: newValue}},
 	}
 
 	updateResult, err := conn.UpdateOne(context.TODO(), filter, update)
