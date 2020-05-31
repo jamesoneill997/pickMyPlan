@@ -40,34 +40,10 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 		result := bcrypt.CompareHashAndPassword([]byte(dbUser.Password), []byte(enteredPassword))
 
+		//auth token handling
 		if result == nil {
-			jwtKey := []byte("my_secret_key")
-			claims := &Claims{
-				Username: username,
-				StandardClaims: jwt.StandardClaims{
-					ExpiresAt: 10000,
-				},
-			}
-
-			token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-			tokenString, tokErr := token.SignedString(jwtKey)
-
-			if tokErr != nil {
-				fmt.Println("Error signing token")
-			}
-
-			http.SetCookie(w, &http.Cookie{
-				Name:  "token",
-				Value: tokenString,
-			})
-
-			currTokens := dbUser.Tokens
-
-			currTokens = append(currTokens, tokenString)
-			db.UpdateDetails(username, "Tokens", currTokens)
-
-		} else {
-			fmt.Println("Unsuccessful")
+			userToken := GenerateToken(w, r, dbUser)
+			fmt.Println(userToken)
 		}
 
 	default:
