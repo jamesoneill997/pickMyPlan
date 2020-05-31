@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"golang.org/x/crypto/bcrypt"
+
 	db "github.com/jamesoneill997/pickMyPlan/db"
 	template "github.com/jamesoneill997/pickMyPlan/templates"
 )
@@ -15,12 +17,15 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	case http.MethodPost:
 		decoder := json.NewDecoder(r.Body)
 		u := template.User{}
-		err := decoder.Decode(&u)
+		decodeErr := decoder.Decode(&u)
+		password := []byte(u.Password)
 
-		if err != nil {
+		hashedPassword, passErr := bcrypt.GenerateFromPassword(password, bcrypt.DefaultCost)
+
+		if decodeErr != nil || passErr != nil {
 			return
 		}
-
+		u.Password = string(hashedPassword)
 		db.AddUser(*userCol, u)
 		return
 	default:

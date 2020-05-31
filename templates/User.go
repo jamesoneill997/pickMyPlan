@@ -13,4 +13,5 @@ type User struct {
 	ProfileImage   string         `bson:"profileImage" json:"profileImage"`
 	ProgressImages []string       `bson:"progressImages" json:"progressImages"`
 	PayAcctID      string         `bson:"payAcctID" json:"payAcctID"`
+	Password       string         `bson:"password" json:"password"`
 }
