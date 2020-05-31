@@ -25,6 +25,8 @@ func main() {
 	http.HandleFunc("/delete", User.Delete)
 	http.HandleFunc("/update", User.UpdateDetails)
 	http.HandleFunc("/login", User.Login)
+	http.HandleFunc("/logout", User.Logout)
+	http.HandleFunc("/me", User.GetMe)
 
 	log.Fatal(s.ListenAndServe())
 

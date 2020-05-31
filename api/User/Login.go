@@ -42,7 +42,10 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 		//auth token handling
 		if result == nil {
-			userToken := GenerateToken(w, r, dbUser)
+			userToken, err := GenerateToken()
+			if err != nil {
+				fmt.Println("Error generating token:", err)
+			}
 			fmt.Println(userToken)
 		}
 
