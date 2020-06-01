@@ -1,7 +1,15 @@
 package User
 
-import "net/http"
+import (
+	"net/http"
+	"time"
+)
 
 func Logout(w http.ResponseWriter, r *http.Request) {
-	return
+	switch r.Method {
+	case "POST":
+		cookie := http.Cookie{Name: "Token", Expires: time.Now()}
+
+		http.SetCookie(w, &cookie)
+	}
 }
