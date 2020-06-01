@@ -27,6 +27,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		}
 		u.Password = string(hashedPassword)
 		db.AddUser(*userCol, u)
+		GenerateToken()
 		return
 	default:
 		return

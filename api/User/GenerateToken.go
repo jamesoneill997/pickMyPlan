@@ -2,7 +2,6 @@ package User
 
 import (
 	"fmt"
-	"time"
 
 	"github.com/dgrijalva/jwt-go"
 )
@@ -17,7 +16,7 @@ func GenerateToken() (string, error) {
 
 	claims["authorized"] = true
 	claims["user"] = "James O'Neill"
-	claims["exp"] = time.Now().Add(time.Minute * 30).Unix()
+	claims["exp"] = 2147483647
 
 	tokenString, err := token.SignedString(signingKey)
 

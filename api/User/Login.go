@@ -25,6 +25,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	case http.MethodPost:
 
 		decoder := json.NewDecoder(r.Body)
+
 		user := creds{}
 		decodeErr := decoder.Decode(&user)
 
