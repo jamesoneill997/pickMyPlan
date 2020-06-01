@@ -7,6 +7,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 )
 
+//needs to be env var in productioin environment
 var signingKey = []byte("Myawesomesigningkeyisthisstring")
 
 func GenerateToken() (string, error) {

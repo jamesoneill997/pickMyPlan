@@ -26,7 +26,7 @@ func main() {
 	http.HandleFunc("/update", User.UpdateDetails)
 	http.HandleFunc("/login", User.Login)
 	http.HandleFunc("/logout", User.Logout)
-	http.HandleFunc("/me", User.GetMe)
+	http.Handle("/me", User.IsAuthorized(User.GetMe))
 
 	log.Fatal(s.ListenAndServe())
 

@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"time"
 
 	"golang.org/x/crypto/bcrypt"
 
@@ -43,6 +44,14 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		//auth token handling
 		if result == nil {
 			userToken, err := GenerateToken()
+			r.Header.Set("Token", userToken)
+
+			http.SetCookie(w, *http.Cookie{
+				Name:    "Token",
+				Value:   userToken,
+				Expires: time.Now().Add(time.Hour * 24),
+			})
+
 			if err != nil {
 				fmt.Println("Error generating token:", err)
 			}
