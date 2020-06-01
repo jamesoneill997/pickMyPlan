@@ -2,26 +2,33 @@ package db
 
 import (
 	"context"
-	"fmt"
+	"errors"
 
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-func Remove(uName string) string {
+//Remove function connects to the db and removes user by unique username
+func Remove(uName string) (int, error) {
+
+	//setup db connection
 	client := SetConnection()
 	userCol := ConnectCollection(client, "users")
+
+	//filter to find user
 	filter := bson.D{
 		bson.E{
 			"username", uName,
 		},
 	}
 
+	//search for user in mongodb and delete
 	result, err := userCol.DeleteOne(context.TODO(), filter)
 
-	if err != nil {
-		return "Error"
-	} else {
-		fmt.Println(result)
-		return "User successfully deleted"
+	//internal error or user does not exist
+	if err != nil || result.DeletedCount == 0 {
+		return -1, errors.New("User does not exist")
 	}
+
+	//0 reponse ok
+	return 0, nil
 }

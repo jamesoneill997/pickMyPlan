@@ -2,7 +2,6 @@ package user
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"golang.org/x/crypto/bcrypt"
@@ -30,7 +29,8 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 		//handle err
 		if decodeErr != nil {
-			fmt.Println("decode error ", decodeErr)
+			w.WriteHeader(500)
+			w.Write([]byte("Internal Server Error"))
 			return
 		}
 
@@ -54,16 +54,20 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		//non zero response indicates no error
 		if result == nil {
 			//generate token and set cookie
-			userToken, err := GenerateToken()
+			userToken, genErr := GenerateToken()
 			c := http.Cookie{Name: "Token", Value: userToken}
 			http.SetCookie(w, &c)
 
 			//handle err
-			if err != nil {
+			if genErr != nil {
 				w.WriteHeader(500)
 				w.Write([]byte("Internal Server Error"))
 				return
 			}
+
+			//Success, 200 response
+			w.WriteHeader(200)
+			w.Write([]byte("Login successful"))
 
 		}
 
