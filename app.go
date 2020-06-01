@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"time"
 
-	User "github.com/jamesoneill997/pickMyPlan/api/User"
+	user "github.com/jamesoneill997/pickMyPlan/api/user"
 )
 
 //server
@@ -20,13 +20,13 @@ var s = &http.Server{
 
 func main() {
 	fmt.Println("Server running on localhost:8080")
-	http.HandleFunc("/create", User.CreateUser)
-	http.HandleFunc("/user", User.Read)
-	http.HandleFunc("/delete", User.Delete)
-	http.HandleFunc("/update", User.UpdateDetails)
-	http.HandleFunc("/login", User.Login)
-	http.HandleFunc("/logout", User.Logout)
-	http.Handle("/me", User.IsAuthorized(User.GetMe))
+	http.HandleFunc("/create", user.CreateUser)
+	http.HandleFunc("/user", user.Read)
+	http.HandleFunc("/delete", user.Delete)
+	http.HandleFunc("/update", user.UpdateDetails)
+	http.HandleFunc("/login", user.Login)
+	http.HandleFunc("/logout", user.Logout)
+	http.Handle("/me", user.IsAuthorized(user.GetMe))
 
 	log.Fatal(s.ListenAndServe())
 
