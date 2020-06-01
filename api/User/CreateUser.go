@@ -2,6 +2,7 @@ package User
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"golang.org/x/crypto/bcrypt"
@@ -27,7 +28,13 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		}
 		u.Password = string(hashedPassword)
 		db.AddUser(*userCol, u)
-		GenerateToken()
+		userToken, err := GenerateToken()
+		if err != nil {
+			fmt.Println("Error generating token: ", err)
+		}
+		c := http.Cookie{Name: "Token", Value: userToken}
+
+		http.SetCookie(w, &c)
 		return
 	default:
 		return
