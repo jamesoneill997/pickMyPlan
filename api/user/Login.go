@@ -7,54 +7,70 @@ import (
 
 	"golang.org/x/crypto/bcrypt"
 
-	"github.com/dgrijalva/jwt-go"
 	db "github.com/jamesoneill997/pickMyPlan/db"
 )
 
+//stores username password
 type creds struct {
 	Username string `bson:"username" json:"username"`
 	Password string `bson:"password" json:"password"`
 }
-type Claims struct {
-	Username string `json:"username"`
-	jwt.StandardClaims
-}
 
+//Login function reads username and password from request body, checks for user, logs in user and generates auth token
 func Login(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
+
+	//handle POST method
 	case http.MethodPost:
 
+		//store inputted data into creds struct
 		decoder := json.NewDecoder(r.Body)
-
 		user := creds{}
 		decodeErr := decoder.Decode(&user)
 
+		//handle err
 		if decodeErr != nil {
 			fmt.Println("decode error ", decodeErr)
 			return
 		}
 
+		//access user creds struct instance
 		username := user.Username
 		enteredPassword := user.Password
 
-		dbUser := db.FindUserByUsername(username)
+		//find user in the db by username
+		dbUser, dbErr := db.FindUserByUsername(username)
 
+		//handle err
+		if dbErr != nil {
+			w.WriteHeader(401)
+			w.Write([]byte("Invalid credentials"))
+			return
+		}
+
+		//encrypt entered password and compare with password on the db
 		result := bcrypt.CompareHashAndPassword([]byte(dbUser.Password), []byte(enteredPassword))
 
-		//auth token handling
+		//non zero response indicates no error
 		if result == nil {
+			//generate token and set cookie
 			userToken, err := GenerateToken()
 			c := http.Cookie{Name: "Token", Value: userToken}
-
 			http.SetCookie(w, &c)
 
+			//handle err
 			if err != nil {
-				fmt.Println("Error generating token:", err)
+				w.WriteHeader(500)
+				w.Write([]byte("Internal Server Error"))
+				return
 			}
 
 		}
 
+	//ignore all other request methods
 	default:
+		w.WriteHeader(400)
+		w.Write([]byte("Bad request"))
 		return
 	}
 }

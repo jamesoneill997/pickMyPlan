@@ -35,6 +35,9 @@ func GetAllQueries(w http.ResponseWriter, r *http.Request) url.Values {
 
 func Read(w http.ResponseWriter, r *http.Request) {
 	uName := GetQueryString(w, r)
-	user := db.FindUserByUsername(uName)
+	user, err := db.FindUserByUsername(uName)
+	if err != nil {
+		fmt.Println(err)
+	}
 	fmt.Println(user)
 }
