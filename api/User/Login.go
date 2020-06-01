@@ -43,14 +43,14 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		//auth token handling
 		if result == nil {
 			userToken, err := GenerateToken()
-			c := &http.Cookie{Name: "Token", Value: userToken}
+			c := http.Cookie{Name: "Token", Value: userToken}
 
-			http.SetCookie(w, c)
+			http.SetCookie(w, &c)
 
 			if err != nil {
 				fmt.Println("Error generating token:", err)
 			}
-			fmt.Println(userToken)
+
 		}
 
 	default:
