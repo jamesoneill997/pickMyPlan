@@ -1,6 +1,7 @@
 package user
 
 import (
+	"fmt"
 	"net/http"
 	"time"
 
@@ -14,6 +15,7 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 	case "DELETE":
 		//find user to be deleted
 		user := GetQueryString(w, r)
+		fmt.Println(user)
 		result, err := db.Remove(user)
 
 		//handle err
