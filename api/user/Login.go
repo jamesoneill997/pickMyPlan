@@ -54,7 +54,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		//non zero response indicates no error
 		if result == nil {
 			//generate token and set cookie
-			userToken, genErr := GenerateToken()
+			userToken, genErr := GenerateToken(username)
 			c := http.Cookie{Name: "Token", Value: userToken}
 			http.SetCookie(w, &c)
 

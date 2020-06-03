@@ -2,7 +2,6 @@ package user
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
 
 	"github.com/dgrijalva/jwt-go"
@@ -37,8 +36,6 @@ func IsAuthorized(endpoint func(w http.ResponseWriter, r *http.Request)) http.Ha
 				if parseErr != nil || !token.Valid {
 					w.WriteHeader(403)
 					w.Write([]byte("Unauthorized"))
-					fmt.Println(parseErr)
-					fmt.Printf("%T ----- %v", token, *token)
 					return
 				}
 

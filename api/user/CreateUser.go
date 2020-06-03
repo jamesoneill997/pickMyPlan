@@ -2,6 +2,7 @@ package user
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"golang.org/x/crypto/bcrypt"
@@ -18,7 +19,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 
 	//handle requests, POST is to be handled, all else should be rejected
 	switch r.Method {
-	case http.MethodPost:
+	case "POST":
 
 		//read submitted data and store in user struct
 		decoder := json.NewDecoder(r.Body)
@@ -27,6 +28,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 
 		//handle err
 		if decodeErr != nil {
+			fmt.Println(decodeErr)
 			w.WriteHeader(400)
 			w.Write([]byte("Invalid data submitted"))
 			return
@@ -57,7 +59,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		}
 
 		//generate auth token for user
-		userToken, tokeErr := GenerateToken()
+		userToken, tokeErr := GenerateToken(u.Username)
 		if tokeErr != nil {
 			w.WriteHeader(500)
 			w.Write([]byte("Internal Server Error"))

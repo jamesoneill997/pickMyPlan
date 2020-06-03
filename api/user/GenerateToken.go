@@ -10,14 +10,14 @@ import (
 var signingKey = []byte("Myawesomesigningkeyisthisstring")
 
 //GenerateToken function will generate a jwt for the user. Returns token or err
-func GenerateToken() (string, error) {
+func GenerateToken(username string) (string, error) {
 	//setup signing method
 	token := jwt.New(jwt.SigningMethodHS256)
 
 	//setup claims
 	claims := token.Claims.(jwt.MapClaims)
 	claims["authorized"] = true
-	claims["user"] = "James O'Neill"
+	claims["user"] = username
 	claims["exp"] = 2147483647
 
 	//Sign with signing key
@@ -25,7 +25,7 @@ func GenerateToken() (string, error) {
 
 	//handle err
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("Error in GenerateToken: ", err)
 		return "", err
 	}
 
