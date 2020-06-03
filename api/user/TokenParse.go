@@ -9,7 +9,7 @@ var t jwt.MapClaims
 
 //GetUsername function to parse username from object. Used to determine current user
 func GetUsername(authToken string) (string, error) {
-	
+
 	//Parse token
 	token, err := jwt.ParseWithClaims(authToken, &t, func(token *jwt.Token) (interface{}, error) {
 		//call env var in production as opposed to signing key

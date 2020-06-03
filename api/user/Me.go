@@ -3,6 +3,8 @@ package user
 import (
 	"fmt"
 	"net/http"
+
+	db "github.com/jamesoneill997/pickMyPlan/db"
 )
 
 //GetMe will return user information which is only accessible to the current user
@@ -21,9 +23,17 @@ func GetMe(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	user, err := db.FindUserByUsername(username)
+
+	if err != nil {
+		w.WriteHeader(503)
+		w.Write([]byte("Internal server error"))
+		return
+	}
+
 	//Success, 200 response
 	w.WriteHeader(200)
 	w.Write([]byte("Profile fetched successfully"))
-	fmt.Println("Your username is: ", username)
+	fmt.Println(user)
 
 }

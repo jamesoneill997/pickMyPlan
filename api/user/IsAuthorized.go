@@ -41,7 +41,7 @@ func IsAuthorized(endpoint func(w http.ResponseWriter, r *http.Request)) http.Ha
 
 				//Authorized, 200 response and serve endpoint
 				w.WriteHeader(200)
-				w.Write([]byte("Access granted"))
+				w.Write([]byte("Access granted\n"))
 				endpoint(w, r)
 				return
 
