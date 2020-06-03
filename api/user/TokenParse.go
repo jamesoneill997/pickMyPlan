@@ -25,4 +25,6 @@ func GetUsername(authToken string) (string, error) {
 
 	username := claimMap["user"].(string)
 	return string(username), nil
+
+	
 }
