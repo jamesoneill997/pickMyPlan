@@ -28,6 +28,6 @@ func GetMe(w http.ResponseWriter, r *http.Request) {
 		claimMap[k] = v
 	}
 
-	fmt.Println(claimMap["user"])
+	username := claimMap["user"]
 
 }
