@@ -7,7 +7,7 @@ import (
 
 	"golang.org/x/crypto/bcrypt"
 
-	db "github.com/jamesoneill997/pickMyPlan/db"
+	db "github.com/jamesoneill997/pickMyPlan/db/"
 	template "github.com/jamesoneill997/pickMyPlan/templates"
 )
 

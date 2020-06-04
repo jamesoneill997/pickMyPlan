@@ -1,8 +1,11 @@
 package templates
 
+//User struct stores user data
 type User struct {
 	Username       string         `bson:"username" json:"username"`
+	Type           string         `bson:"type" json:"type"`
 	Gender         string         `bson:"gender" json:"gender"`
+	Email          string         `bson:"email" json:"email"`
 	WeightKg       int            `bson:"weightKg" json:"weightKg"`
 	HeightCm       int            `bson:"heightCm" json:"heightCm"`
 	Build          string         `bson:"build" json:"build"`
@@ -14,5 +17,5 @@ type User struct {
 	ProgressImages []string       `bson:"progressImages" json:"progressImages"`
 	PayAcctID      string         `bson:"payAcctID" json:"payAcctID"`
 	Password       string         `bson:"password" json:"password"`
-	Tokens         []string       `bson:"tokens" json:"tokens"`
+	Plans          []string       `bson:"plans" json:"plans"`
 }
