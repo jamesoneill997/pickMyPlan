@@ -11,8 +11,11 @@ import (
 func CurrUser(w http.ResponseWriter, r *http.Request) template.User {
 
 	//Parse value from key, value pair
-	authToken := r.Header["Cookie"][0][6:]
+	if r.Header["Cookie"] == nil {
+		return template.User{}
+	}
 
+	authToken := r.Header["Cookie"][0][6:]
 	//Parse username from auth token
 	username, err := GetUsername(authToken)
 
@@ -31,7 +34,7 @@ func CurrUser(w http.ResponseWriter, r *http.Request) template.User {
 		return template.User{}
 	}
 
-	//Success, 200 response
+	//Success
 
 	w.Write([]byte("Profile fetched successfully\n"))
 	return user

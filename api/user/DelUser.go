@@ -1,7 +1,6 @@
 package user
 
 import (
-	"fmt"
 	"net/http"
 	"time"
 
@@ -14,9 +13,8 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 	//Handle delete request
 	case "DELETE":
 		//find user to be deleted
-		user := GetQueryString(w, r)
-		fmt.Println(user)
-		result, err := db.Remove(user)
+		user := CurrUser(w, r)
+		result, err := db.Remove(user.Username)
 
 		//handle err
 		if err != nil || result != 0 {
@@ -28,7 +26,6 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 			http.SetCookie(w, &cookie)
 
 			//Successful, 200 status
-			w.WriteHeader(200)
 			w.Write([]byte("User successfully deleted"))
 		}
 
