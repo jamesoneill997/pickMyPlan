@@ -4,14 +4,15 @@ import (
 	"context"
 	"errors"
 
+	connection "github.com/jamesoneill997/pickMyPlan/db/connection"
 	"go.mongodb.org/mongo-driver/bson"
 )
 
 //UpdateDetails to update specified fields in users collection
 func UpdateDetails(username string, field string, newValue interface{}) (int, error) {
 	//setup connection to database
-	client := SetConnection()
-	conn := ConnectCollection(client, "users")
+	client := connection.SetConnection()
+	conn := connection.ConnectCollection(client, "users")
 
 	//filter used to find user by unique username
 	filter := bson.D{

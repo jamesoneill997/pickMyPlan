@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 
+	connection "github.com/jamesoneill997/pickMyPlan/db/connection"
 	"go.mongodb.org/mongo-driver/bson"
 )
 
@@ -11,8 +12,8 @@ import (
 func Remove(uName string) (int, error) {
 
 	//setup db connection
-	client := SetConnection()
-	userCol := ConnectCollection(client, "users")
+	client := connection.SetConnection()
+	userCol := connection.ConnectCollection(client, "users")
 
 	//filter to find user
 	filter := bson.D{

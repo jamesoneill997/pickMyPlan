@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 
-	connection "github.com/jamesoneill997/pickMyPlan/db/dbconnection"
+	connection "github.com/jamesoneill997/pickMyPlan/db/connection"
 	template "github.com/jamesoneill997/pickMyPlan/templates"
 	"go.mongodb.org/mongo-driver/bson"
 )
