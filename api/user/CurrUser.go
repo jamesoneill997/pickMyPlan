@@ -3,7 +3,7 @@ package user
 import (
 	"net/http"
 
-	db "github.com/jamesoneill997/pickMyPlan/db"
+	db "github.com/jamesoneill997/pickMyPlan/db/userOperations"
 	template "github.com/jamesoneill997/pickMyPlan/templates"
 )
 

@@ -3,7 +3,7 @@ package user
 import (
 	"net/http"
 
-	db "github.com/jamesoneill997/pickMyPlan/db"
+	userOps "github.com/jamesoneill997/pickMyPlan/db/userOperations"
 )
 
 //UpdateDetails func
@@ -20,7 +20,7 @@ func UpdateDetails(w http.ResponseWriter, r *http.Request) {
 		newValue := query["value"][0]
 
 		//update on the database
-		result, err := db.UpdateDetails(username, field, newValue)
+		result, err := userOps.UpdateDetails(username, field, newValue)
 
 		//error with the database update
 		if result != 0 || err != nil {

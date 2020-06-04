@@ -7,15 +7,17 @@ import (
 
 	"golang.org/x/crypto/bcrypt"
 
-	db "github.com/jamesoneill997/pickMyPlan/db/"
+	connection "github.com/jamesoneill997/pickMyPlan/db/connection"
+	db "github.com/jamesoneill997/pickMyPlan/db/userOperations"
+
 	template "github.com/jamesoneill997/pickMyPlan/templates"
 )
 
 //CreateUser > add to db > generate auth token > set cookie
 func CreateUser(w http.ResponseWriter, r *http.Request) {
 	//connect to database
-	client := db.SetConnection()
-	userCol := db.ConnectCollection(client, "users")
+	client := connection.SetConnection()
+	userCol := connection.ConnectCollection(client, "users")
 
 	//handle requests, POST is to be handled, all else should be rejected
 	switch r.Method {

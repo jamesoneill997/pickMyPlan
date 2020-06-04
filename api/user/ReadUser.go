@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"net/url"
 
-	db "github.com/jamesoneill997/pickMyPlan/db"
+	userOps "github.com/jamesoneill997/pickMyPlan/db/userOperations"
 )
 
 //GetQueryString parses a single query string (username) from a GET request
@@ -51,7 +51,8 @@ func Read(w http.ResponseWriter, r *http.Request) {
 
 	//use above functions to parse string and find user
 	uName := GetQueryString(w, r)
-	user, findErr := db.FindUserByUsername(uName)
+
+	user, findErr := userOps.FindUserByUsername(uName)
 
 	//handle err
 	if findErr != nil {

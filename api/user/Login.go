@@ -4,9 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 
+	userOps "github.com/jamesoneill997/pickMyPlan/db/userOperations"
 	"golang.org/x/crypto/bcrypt"
-
-	db "github.com/jamesoneill997/pickMyPlan/db"
 )
 
 //stores username password
@@ -39,7 +38,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		enteredPassword := user.Password
 
 		//find user in the db by username
-		dbUser, dbErr := db.FindUserByUsername(username)
+		dbUser, dbErr := userOps.FindUserByUsername(username)
 
 		//handle err
 		if dbErr != nil {

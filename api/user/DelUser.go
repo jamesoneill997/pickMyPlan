@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	db "github.com/jamesoneill997/pickMyPlan/db"
+	db "github.com/jamesoneill997/pickMyPlan/db/userOperations"
 )
 
 //Delete function removes user from database and expires active auth token
