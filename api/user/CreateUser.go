@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"golang.org/x/crypto/bcrypt"
+	"github.com/mitchellh/mapstructure"
 
 	connection "github.com/jamesoneill997/pickMyPlan/db/connection"
 	db "github.com/jamesoneill997/pickMyPlan/db/userOperations"
@@ -25,8 +25,34 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 
 		//read submitted data and store in user struct
 		decoder := json.NewDecoder(r.Body)
-		u := template.User{}
-		decodeErr := decoder.Decode(&u)
+
+		data := map[string]interface{}{}
+
+		decodeErr := decoder.Decode(&data)
+
+		switch data["Type"].(string) {
+		case "Member":
+			member := template.User{}
+			decodeErr = mapstructure.Decode(t, &member)
+			HashPassword(member.Password)
+			add := db.AddUser(*userCol, member)
+			if add != 0 {
+				w.WriteHeader(503)
+				w.Write([]byte("Internal Server Error"))
+			}
+		case "Trainer":
+			trainer := template.Trainer{}
+			decodeErr = mapstructure.Decode(t, &trainer)
+			HashPassword(trainer.Password)
+			add := db.AddUser(*userCol, trainer)
+			if add != 0 {
+				w.WriteHeader(503)
+				w.Write([]byte("Internal Server Error"))
+			}
+		default:
+			w.WriteHeader(400)
+			w.Write([]byte("Bad request"))
+		}
 
 		//handle err
 		if decodeErr != nil {
@@ -36,32 +62,8 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		//encrypt password
-		password := []byte(u.Password)
-		hashedPassword, passErr := bcrypt.GenerateFromPassword(password, bcrypt.DefaultCost)
-
-		//handle err
-		if passErr != nil {
-			w.WriteHeader(500)
-			w.Write([]byte("Internal Server Error"))
-			return
-		}
-
-		//set user password to encrypted password before storage
-		u.Password = string(hashedPassword)
-
-		//add user to db
-		create := db.AddUser(*userCol, u)
-
-		//handle err
-		if create != 0 {
-			w.WriteHeader(500)
-			w.Write([]byte("Error creating account. Please try again."))
-			return
-		}
-
 		//generate auth token for user
-		userToken, tokeErr := GenerateToken(u.Username)
+		userToken, tokeErr := GenerateToken(data["Username"].(string))
 		if tokeErr != nil {
 			w.WriteHeader(500)
 			w.Write([]byte("Internal Server Error"))
