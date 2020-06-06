@@ -1,6 +1,7 @@
 package user
 
 import (
+	"fmt"
 	"net/http"
 
 	db "github.com/jamesoneill997/pickMyPlan/db/userOperations"
@@ -29,8 +30,8 @@ func CurrUser(w http.ResponseWriter, r *http.Request) template.User {
 	user, err := db.FindUserByUsername(username)
 
 	if err != nil {
-		w.WriteHeader(503)
 		w.Write([]byte("Internal server error"))
+		fmt.Println(err)
 		return template.User{}
 	}
 

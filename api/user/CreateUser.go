@@ -29,11 +29,11 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		data := map[string]interface{}{}
 
 		decodeErr := decoder.Decode(&data)
-
+		fmt.Println(data["Type"])
 		switch data["Type"].(string) {
 		case "Member":
 			member := template.User{}
-			decodeErr = mapstructure.Decode(t, &member)
+			decodeErr = mapstructure.Decode(data, &member)
 			HashPassword(member.Password)
 			add := db.AddUser(*userCol, member)
 			if add != 0 {
@@ -42,7 +42,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 			}
 		case "Trainer":
 			trainer := template.Trainer{}
-			decodeErr = mapstructure.Decode(t, &trainer)
+			decodeErr = mapstructure.Decode(data, &trainer)
 			HashPassword(trainer.Password)
 			add := db.AddUser(*userCol, trainer)
 			if add != 0 {

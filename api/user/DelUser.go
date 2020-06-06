@@ -18,7 +18,6 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 
 		//handle err
 		if err != nil || result != 0 {
-			w.WriteHeader(403)
 			w.Write([]byte("Not Authorized"))
 		} else {
 			//set cookie expiry to now
