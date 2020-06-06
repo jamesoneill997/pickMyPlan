@@ -34,7 +34,12 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		case "Member":
 			member := template.User{}
 			decodeErr = mapstructure.Decode(data, &member)
-			HashPassword(member.Password)
+			pw, err := HashPassword(member.Password)
+			member.Password = pw
+			if err != nil {
+				w.WriteHeader(503)
+				w.Write([]byte("Internal Server Error"))
+			}
 			add := db.AddUser(*userCol, member)
 			if add != 0 {
 				w.WriteHeader(503)
@@ -43,7 +48,13 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		case "Trainer":
 			trainer := template.Trainer{}
 			decodeErr = mapstructure.Decode(data, &trainer)
-			HashPassword(trainer.Password)
+			pw, err := HashPassword(trainer.Password)
+			trainer.Password = pw
+
+			if err != nil {
+				w.WriteHeader(503)
+				w.Write([]byte("Internal Server Error"))
+			}
 			add := db.AddUser(*userCol, trainer)
 			if add != 0 {
 				w.WriteHeader(503)
