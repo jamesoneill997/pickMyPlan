@@ -26,16 +26,21 @@ func CreatePlan(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
+		//add plan to database plan collection
 		res, err := trainerdb.AddPlan(plan)
 
+		//handle err
 		if res != 0 || err != nil {
 			w.WriteHeader(503)
 			w.Write([]byte("Internal server error"))
 			return
 		}
 
+		//success - Creation response
 		w.WriteHeader(201)
 		w.Write([]byte("Plan successfully added"))
+
+	//discard all other request methods
 	default:
 		w.WriteHeader(400)
 		w.Write([]byte("Bad request"))
