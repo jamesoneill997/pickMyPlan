@@ -21,9 +21,8 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 			w.Write([]byte("Not Authorized"))
 		} else {
 			//set cookie expiry to now
-			cookie := http.Cookie{Name: "Token", Expires: time.Now()}
-			http.SetCookie(w, &cookie)
-
+			cookie := &http.Cookie{Name: "Token", Value: "", Expires: time.Now()}
+			http.SetCookie(w, cookie)
 			//Successful, 200 status
 			w.Write([]byte("User successfully deleted"))
 		}

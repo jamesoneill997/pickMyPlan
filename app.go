@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"time"
 
+	trainer "github.com/jamesoneill997/pickMyPlan/api/trainer"
 	user "github.com/jamesoneill997/pickMyPlan/api/user"
 )
 
@@ -27,6 +28,7 @@ func main() {
 	http.HandleFunc("/login", user.Login)
 	http.HandleFunc("/logout", user.Logout)
 	http.Handle("/me", user.IsAuthorized(user.GetMe))
+	http.Handle("/createplan", trainer.CreatePlan)
 
 	log.Fatal(s.ListenAndServe())
 
