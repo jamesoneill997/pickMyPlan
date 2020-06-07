@@ -10,12 +10,16 @@ import (
 
 //CreatePlan parses the request and adds a plan to the plan collection
 func CreatePlan(w http.ResponseWriter, r *http.Request) {
+	//handle post request
 	switch r.Method {
 	case "POST":
+
+		//setup Program template and parse body
 		plan := templates.Program{}
 		decoder := json.NewDecoder(r.Body)
 		decodErr := decoder.Decode(&plan)
 
+		//handle err
 		if decodErr != nil {
 			w.WriteHeader(400)
 			w.Write([]byte("Bad request"))
