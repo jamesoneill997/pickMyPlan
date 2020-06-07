@@ -4,18 +4,19 @@ import (
 	"encoding/json"
 	"net/http"
 
+	trainerdb "github.com/jamesoneill997/pickMyPlan/db/traineroperations"
 	"github.com/jamesoneill997/pickMyPlan/templates"
-	trainerdb "github.com/jamesoneill997/pickmyplan/db/traineroperations"
 )
 
+//CreatePlan parses the request and adds a plan to the plan collection
 func CreatePlan(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "POST":
-		plan := templates.Program
+		plan := templates.Program{}
 		decoder := json.NewDecoder(r.Body)
 		decodErr := decoder.Decode(&plan)
 
-		if decoder != nil {
+		if decodErr != nil {
 			w.WriteHeader(400)
 			w.Write([]byte("Bad request"))
 			return
