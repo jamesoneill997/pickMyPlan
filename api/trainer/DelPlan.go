@@ -1,6 +1,7 @@
 package trainer
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/jamesoneill997/pickMyPlan/db/traineroperations"
@@ -11,7 +12,7 @@ func DelPlan(w http.ResponseWriter, r *http.Request) {
 	res, err := traineroperations.RemPlan(w, r, "Yoga with James")
 
 	if err != nil || res != 0 {
-		w.WriteHeader(503)
+		fmt.Println(err)
 		w.Write([]byte("Internal Server Error"))
 		return
 	}

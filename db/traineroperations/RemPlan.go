@@ -2,7 +2,6 @@ package traineroperations
 
 import (
 	"context"
-	"errors"
 	"net/http"
 
 	"github.com/jamesoneill997/pickMyPlan/api/user"
@@ -14,7 +13,7 @@ import (
 func RemPlan(w http.ResponseWriter, r *http.Request, name string) (int, error) {
 	//preconditions - DB connection, collection connection and CurrUser
 	conn := connection.SetConnection()
-	coll := connection.ConnectCollection(conn, "Plan")
+	coll := connection.ConnectCollection(conn, "plan")
 	trainer := user.CurrUser(w, r).Username
 
 	//identify plan by name+creator
@@ -32,7 +31,7 @@ func RemPlan(w http.ResponseWriter, r *http.Request, name string) (int, error) {
 
 	//handle err
 	if err != nil || res.DeletedCount == 0 {
-		return -1, errors.New("Error removing user")
+		return -1, err
 	}
 
 	//success, 0 exit status

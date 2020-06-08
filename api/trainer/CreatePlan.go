@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/jamesoneill997/pickMyPlan/api/user"
 	trainerdb "github.com/jamesoneill997/pickMyPlan/db/traineroperations"
 	"github.com/jamesoneill997/pickMyPlan/templates"
 )
@@ -18,6 +19,8 @@ func CreatePlan(w http.ResponseWriter, r *http.Request) {
 		plan := templates.Program{}
 		decoder := json.NewDecoder(r.Body)
 		decodErr := decoder.Decode(&plan)
+		u := user.CurrUser(w, r)
+		plan.Creator = u.Username
 
 		//handle err
 		if decodErr != nil {
