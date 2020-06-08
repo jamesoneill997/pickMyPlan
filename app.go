@@ -29,6 +29,7 @@ func main() {
 	http.HandleFunc("/logout", user.Logout)
 	http.Handle("/me", user.IsAuthorized(user.GetMe))
 	http.HandleFunc("/createplan", trainer.IsTrainer(trainer.CreatePlan))
+	http.HandleFunc("/deleteplan", trainer.IsTrainer(trainer.DelPlan))
 
 	log.Fatal(s.ListenAndServe())
 

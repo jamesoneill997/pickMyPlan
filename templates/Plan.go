@@ -2,6 +2,7 @@ package templates
 
 //Program struct stores program template
 type Program struct {
+	Name     string `bson:"name" json:"name"`
 	Category string `bson:"category" json:"category"`
 	Workout  struct {
 		Exercises  []string `bson:"exercises" json:"exercises"`
@@ -15,4 +16,5 @@ type Program struct {
 		Dinner    []string `bson:"dinner" json:"dinner"`
 		Snacks    []string `bson:"snacks" json:"snacks"`
 	}
+	Creator string `bson:"creator" json:"creator"`
 }
