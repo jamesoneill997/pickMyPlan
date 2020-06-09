@@ -19,7 +19,7 @@ func DelPlan(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	res, err := traineroperations.RemPlan(w, r, "Yoga With James")
+	res, err := traineroperations.RemPlan(w, r, planName["Name"])
 
 	if err != nil || res != 0 {
 		fmt.Println(err, res)
