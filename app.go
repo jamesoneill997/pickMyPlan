@@ -30,6 +30,7 @@ func main() {
 	http.Handle("/me", user.IsAuthorized(user.GetMe))
 	http.HandleFunc("/createplan", trainer.IsTrainer(trainer.CreatePlan))
 	http.HandleFunc("/deleteplan", trainer.IsTrainer(trainer.DelPlan))
+	http.HandleFunc("/readplans", trainer.IsTrainer(trainer.ReadPlans))
 
 	log.Fatal(s.ListenAndServe())
 
