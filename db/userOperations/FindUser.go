@@ -18,11 +18,7 @@ func FindUserByUsername(username string) (template.User, error) {
 	user := template.User{}
 
 	//mongodb filter to find user by unique username
-	filter := bson.D{
-		bson.E{
-			"username", username,
-		},
-	}
+	filter := bson.M{"username": username}
 
 	//find user in db
 	userCol.FindOne(context.TODO(), filter).Decode(&user)
