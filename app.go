@@ -7,11 +7,12 @@ import (
 
 	trainer "github.com/jamesoneill997/pickMyPlan/api/trainer"
 	user "github.com/jamesoneill997/pickMyPlan/api/user"
+	"github.com/jamesoneill997/pickMyPlan/db/connection"
 )
 
 //server
 var s = &http.Server{
-	Addr:           ":8080",
+	Addr:           connection.GetPort(),
 	Handler:        nil,
 	ReadTimeout:    10 * time.Second,
 	WriteTimeout:   10 * time.Second,

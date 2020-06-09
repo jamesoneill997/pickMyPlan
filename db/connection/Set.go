@@ -3,6 +3,7 @@ package connection
 import (
 	"context"
 	"fmt"
+	"os"
 	"time"
 
 	"go.mongodb.org/mongo-driver/mongo"
@@ -29,4 +30,15 @@ func SetConnection() *mongo.Client {
 
 	//returns pointer to mongo.Client type
 	return client
+}
+
+//GetPort function to allow testing and production to run separately
+func GetPort() string {
+	var port = os.Getenv("PORT")
+	// Set a default port if there is nothing in the environment
+	if port == "" {
+		port = "8080"
+		fmt.Println("INFO: No PORT environment variable detected, defaulting to " + port)
+	}
+	return ":" + port
 }
