@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -20,7 +19,7 @@ var s = &http.Server{
 }
 
 func main() {
-	fmt.Println("Server running on localhost:8080")
+	//fmt.Println("Server running on localhost:8080")
 	http.HandleFunc("/create", user.CreateUser)
 	http.HandleFunc("/user", user.Read)
 	http.HandleFunc("/delete", user.Delete)
