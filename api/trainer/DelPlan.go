@@ -9,15 +9,14 @@ import (
 
 //DelPlan is a trainer operation to remove a plan from the DB
 func DelPlan(w http.ResponseWriter, r *http.Request) {
-	res, err := traineroperations.RemPlan(w, r, "Yoga with James")
+	res, err := traineroperations.RemPlan(w, r, "Yoga With James")
 
 	if err != nil || res != 0 {
-		fmt.Println(err)
+		fmt.Println(err, res)
 		w.Write([]byte("Internal Server Error"))
 		return
 	}
 
-	w.WriteHeader(200)
 	w.Write([]byte("Plan successfully deleted"))
 	return
 }

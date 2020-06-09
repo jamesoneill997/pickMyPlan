@@ -2,6 +2,7 @@ package traineroperations
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 
 	"github.com/jamesoneill997/pickMyPlan/api/user"
@@ -15,16 +16,10 @@ func RemPlan(w http.ResponseWriter, r *http.Request, name string) (int, error) {
 	conn := connection.SetConnection()
 	coll := connection.ConnectCollection(conn, "plan")
 	trainer := user.CurrUser(w, r).Username
+	fmt.Println(name, trainer)
 
 	//identify plan by name+creator
-	filter := bson.D{
-		bson.E{
-			"name", name,
-		},
-		bson.E{
-			"creator", trainer,
-		},
-	}
+	filter := bson.M{"name": name, "creator": trainer}
 
 	//delete match from db
 	res, err := coll.DeleteOne(context.TODO(), filter)
