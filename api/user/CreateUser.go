@@ -29,19 +29,20 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		data := map[string]interface{}{}
 
 		decodeErr := decoder.Decode(&data)
-		fmt.Println(data["Type"])
 		switch data["Type"].(string) {
 		case "Member":
 			member := template.User{}
 			decodeErr = mapstructure.Decode(data, &member)
 			pw, err := HashPassword(member.Password)
 			member.Password = pw
+			fmt.Println(member)
 			if err != nil {
 				w.WriteHeader(503)
 				w.Write([]byte("Internal Server Error"))
 			}
 			add := db.AddUser(*userCol, member)
 			if add != 0 {
+				fmt.Println("Error adding user to db")
 				w.WriteHeader(503)
 				w.Write([]byte("Internal Server Error"))
 			}
