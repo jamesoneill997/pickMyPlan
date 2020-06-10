@@ -90,6 +90,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("User created successfully"))
 		return
 	default:
+
 		//Any request other than POST will be ignored
 		w.WriteHeader(400)
 		return
