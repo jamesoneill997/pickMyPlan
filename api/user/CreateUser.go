@@ -86,7 +86,6 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 
 		http.SetCookie(w, &c)
 		//creation response
-		w.WriteHeader(201)
 		w.Write([]byte("User created successfully"))
 		return
 	default:

@@ -7,12 +7,11 @@ import (
 
 	trainer "github.com/jamesoneill997/pickMyPlan/api/trainer"
 	user "github.com/jamesoneill997/pickMyPlan/api/user"
-	"github.com/jamesoneill997/pickMyPlan/db/connection"
 )
 
 //server
 var s = &http.Server{
-	Addr:           connection.GetPort(),
+	Addr:           "https://pickmyplanapi.herokuapp.com",
 	Handler:        nil,
 	ReadTimeout:    10 * time.Second,
 	WriteTimeout:   10 * time.Second,
