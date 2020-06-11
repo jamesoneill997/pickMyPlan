@@ -11,7 +11,9 @@ import (
 )
 
 //set db address
-var dbAddr = "mongodb+srv://james:Pickmyplan123@cluster0-cg8ph.mongodb.net/PickMyPlan?retryWrites=true&w=majority"
+//var dbAddr = "mongodb+srv://james:Pickmyplan123@cluster0-cg8ph.mongodb.net/PickMyPlan?retryWrites=true&w=majority"
+
+var dbAddr = "mongodb://localhost"
 
 //Creates new client
 var client, err = mongo.NewClient(options.Client().ApplyURI(dbAddr))

@@ -3,7 +3,6 @@ package main
 import (
 	"log"
 	"net/http"
-	"os"
 	"time"
 
 	trainer "github.com/jamesoneill997/pickMyPlan/api/trainer"
@@ -12,7 +11,7 @@ import (
 
 //server
 var s = &http.Server{
-	Addr:           "https://pickmyplanapi.herokuapp.com" + ":" + os.Getenv("PORT"),
+	Addr:           ":8080",
 	Handler:        nil,
 	ReadTimeout:    10 * time.Second,
 	WriteTimeout:   10 * time.Second,
