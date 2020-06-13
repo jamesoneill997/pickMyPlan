@@ -1,1 +1,1 @@
-web: ./pickMyPlan
+web: go run app.go
