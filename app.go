@@ -1,17 +1,19 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"time"
 
 	trainer "github.com/jamesoneill997/pickMyPlan/api/trainer"
 	user "github.com/jamesoneill997/pickMyPlan/api/user"
+	"github.com/jamesoneill997/pickMyPlan/db/connection"
 )
 
 //server
 var s = &http.Server{
-	Addr:           ":8080",
+	Addr:           connection.GetPort(),
 	Handler:        nil,
 	ReadTimeout:    10 * time.Second,
 	WriteTimeout:   10 * time.Second,
@@ -19,7 +21,7 @@ var s = &http.Server{
 }
 
 func main() {
-	//fmt.Println("Server running on localhost:8080")
+	fmt.Println("Server running on " + connection.GetPort())
 	http.HandleFunc("/create", user.CreateUser)
 	http.HandleFunc("/user", user.Read)
 	http.HandleFunc("/delete", user.Delete)

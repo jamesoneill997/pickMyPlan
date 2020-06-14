@@ -10,17 +10,18 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-//set db address
-var dbAddr = "mongodb+srv://james:Pickmyplan123@cluster0-cg8ph.mongodb.net/PickMyPlan?retryWrites=true&w=majority"
+//set db address mongodb+srv://james:<password>@cluster0-cg8ph.mongodb.net/<dbname>?retryWrites=true&w=majority
+var dbAddr = "mongodb+srv://james:Pickmyplan123@cluster0-cg8ph.mongodb.net/pickMyPlan?retryWrites=true&w=majority"
 
 //Creates new client
 var client, err = mongo.NewClient(options.Client().ApplyURI(dbAddr))
 var ctx, cancel = context.WithTimeout(context.Background(), 20*time.Second)
 
-//SetConnection connects to database (currently hosted on localhost)
+//SetConnection connects to database
 func SetConnection() *mongo.Client {
 	//handle err
 	if err != nil {
+		fmt.Print("Error connecting to database\n\n")
 		fmt.Println(err)
 	}
 
