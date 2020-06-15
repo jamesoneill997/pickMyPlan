@@ -20,6 +20,7 @@ var s = &http.Server{
 	MaxHeaderBytes: 1 << 16,
 }
 
+//main, handles endpoints
 func main() {
 	fmt.Println("Server running on " + connection.GetPort())
 	http.HandleFunc("/create", user.CreateUser)
