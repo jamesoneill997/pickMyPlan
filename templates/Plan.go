@@ -10,6 +10,7 @@ type Program struct {
 		Duration   int      `bson:"duration" json:"duration"`
 		TargetArea string   `bson:"targetArea" json:"targetArea"`
 	} `bson:"workout" json:"workout"`
+	//Diet contains meals
 	Diet struct {
 		Breakfast []string `bson:"breakfast" json:"breakfast"`
 		Lunch     []string `bson:"luch" json:"lunch"`
