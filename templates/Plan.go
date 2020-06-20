@@ -18,5 +18,7 @@ type Program struct {
 		Dinner    []string `bson:"dinner" json:"dinner"`
 		Snacks    []string `bson:"snacks" json:"snacks"`
 	}
+
+	//username of trainer
 	Creator string `bson:"creator" json:"creator"`
 }
