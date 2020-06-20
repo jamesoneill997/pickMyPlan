@@ -2,6 +2,7 @@ package templates
 
 //Program struct stores program template
 type Program struct {
+	//name does not need to be unique
 	Name     string `bson:"name" json:"name"`
 	Category string `bson:"category" json:"category"`
 	Workout  struct {
